@@ -7,10 +7,10 @@ class Ngram:
     def __init__(self, max_n=5):
         self.max_n = max_n
         
-        # n -> context -> word -> count
+        
         self.counts = {n: defaultdict(lambda: defaultdict(int)) for n in range(1, max_n + 1)}
         
-        # n -> context -> total count
+        
         self.context_counts = {n: defaultdict(int) for n in range(1, max_n + 1)}
 
     def process_line(self, line):
@@ -25,7 +25,7 @@ class Ngram:
         for n in range(1, self.max_n + 1):
             for i in range(len(tokens) - n + 1):
                 ngram = tuple(tokens[i:i+n])
-                context = ngram[:-1]   # empty tuple for unigram
+                context = ngram[:-1]   
                 word = ngram[-1]
                 if(len(context)==0):
                     continue
@@ -60,7 +60,7 @@ class Ngram:
         )[:k]
 
 
-# ------------------ DATA LOADING ------------------
+
 
 url = "https://www.gutenberg.org/files/1342/1342-0.txt"
 response = requests.get(url)
@@ -74,12 +74,12 @@ if start_marker in full_text:
 if end_marker in full_text:
     full_text = full_text.split(end_marker)[0]
 
-# ------------------ TRAIN ------------------
+
 
 ngram = Ngram(max_n=5)
 ngram.train(full_text)
 
-# ------------------ INTERACTIVE TEST ------------------
+
 
 while True:
     line = input("Enter sentence (or press Enter): ").strip()
